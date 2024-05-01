@@ -1,13 +1,27 @@
 package main
 
-import "github.com/gofiber/fiber/v2"
+import (
+	"doodlegram/internal/post"
+	"log"
+
+	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
+	"github.com/gofiber/fiber/v2/middleware/logger"
+	"github.com/gofiber/fiber/v2/middleware/recover"
+)
 
 func main() {
 	app := fiber.New()
 
-	app.Get("/", func(c *fiber.Ctx) error {
-		return c.SendString("Hello team!")
-	})
+	app.Use(recover.New())
+	app.Use(logger.New())
+	app.Use(cors.New())
 
-	app.Listen(":8080")
+	postRepository := post.NewRepo()
+	postService := post.NewService(postRepository)
+
+	api := app.Group("/api")
+	post.PostRouter(api, postService)
+
+	log.Fatal(app.Listen(":8080"))
 }
