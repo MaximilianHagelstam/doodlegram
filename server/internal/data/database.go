@@ -1,4 +1,4 @@
-package database
+package data
 
 import (
 	"database/sql"
@@ -18,7 +18,7 @@ var (
 	host     = os.Getenv("DB_HOST")
 )
 
-func New() *sql.DB {
+func NewDB() *sql.DB {
 	connStr := fmt.Sprintf("postgres://%s:%s@%s:%s/%s?sslmode=disable", username, password, host, port, database)
 	db, err := sql.Open("postgres", connStr)
 	if err != nil {
@@ -29,6 +29,5 @@ func New() *sql.DB {
 	if err != nil {
 		log.Fatal(err)
 	}
-
 	return db
 }

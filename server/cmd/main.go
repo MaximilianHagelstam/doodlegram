@@ -1,8 +1,8 @@
 package main
 
 import (
-	"doodlegram/internal/database"
-	"doodlegram/internal/post"
+	"doodlegram/internal/data"
+	"doodlegram/internal/handlers"
 	"fmt"
 	"os"
 	"strconv"
@@ -21,12 +21,12 @@ func main() {
 	app.Use(logger.New())
 	app.Use(cors.New())
 
-	db := database.New()
-	postRepository := post.NewRepo(db)
-	postService := post.NewService(postRepository)
+	db := data.NewDB()
+	repo := data.NewRepo(db)
 
 	api := app.Group("/api")
-	post.PostRouter(api, postService)
+
+	api.Get("/posts", handlers.GetPostsHandler(repo))
 
 	port, _ := strconv.Atoi(os.Getenv("PORT"))
 	err := app.Listen(fmt.Sprintf(":%d", port))

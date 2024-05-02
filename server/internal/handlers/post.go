@@ -1,12 +1,14 @@
-package post
+package handlers
 
 import (
 	"github.com/gofiber/fiber/v2"
+
+	"doodlegram/internal/data"
 )
 
-func GetPostsHandler(service Service) fiber.Handler {
+func GetPostsHandler(r data.Repository) fiber.Handler {
 	return func(c *fiber.Ctx) error {
-		posts, err := service.GetPosts()
+		posts, err := r.GetPosts()
 		if err != nil {
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "error fetching books"})
 		}
