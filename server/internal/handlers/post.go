@@ -10,8 +10,8 @@ func GetPostsHandler(r data.Repository) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		posts, err := r.GetPosts()
 		if err != nil {
-			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "error fetching books"})
+			return fiber.ErrInternalServerError
 		}
-		return c.Status(fiber.StatusOK).JSON(posts)
+		return c.Status(fiber.StatusOK).JSON(fiber.Map{"posts": posts})
 	}
 }

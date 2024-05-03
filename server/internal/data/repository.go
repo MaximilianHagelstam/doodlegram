@@ -17,8 +17,19 @@ func NewRepo(db *sql.DB) Repository {
 }
 
 func (r *repository) GetPosts() (*[]Post, error) {
-	posts := &[]Post{
-		{ID: "acb123", Caption: "Test"},
+	rows, err := r.db.Query("SELECT * FROM posts")
+	if err != nil {
+		return nil, err
 	}
-	return posts, nil
+	defer rows.Close()
+
+	posts := []Post{}
+	for rows.Next() {
+		post := Post{}
+		if err := rows.Scan(&post.ID, &post.Caption); err != nil {
+			return nil, err
+		}
+		posts = append(posts, post)
+	}
+	return &posts, nil
 }
