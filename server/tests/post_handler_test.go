@@ -11,8 +11,7 @@ import (
 func TestGetPostsHandler(t *testing.T) {
 	app := fiber.New()
 	repo := NewMockRepo()
-	api := app.Group("/api")
-	api.Get("/posts", handlers.GetPostsHandler(repo))
+	app.Get("/api/posts", handlers.GetPostsHandler(repo))
 
 	req, err := http.NewRequest("GET", "/api/posts", nil)
 	if err != nil {

@@ -15,3 +15,14 @@ func (r *repository) GetPosts() (*[]data.Post, error) {
 	}
 	return posts, nil
 }
+
+func (r *repository) GetPostByID(id string) (*data.Post, error) {
+	post := &data.Post{
+		ID: "acb123", Caption: "Test",
+	}
+	return post, nil
+}
+
+func (r *repository) DeletePost(id string) error {
+	return nil
+}

@@ -27,6 +27,8 @@ func main() {
 	api := app.Group("/api")
 
 	api.Get("/posts", handlers.GetPostsHandler(repo))
+	api.Get("/posts/:id", handlers.GetPostByIDHandler(repo))
+	api.Delete("/posts/:id", handlers.DeletePostHandler(repo))
 
 	port, _ := strconv.Atoi(os.Getenv("PORT"))
 	err := app.Listen(fmt.Sprintf(":%d", port))
