@@ -24,8 +24,12 @@ test:
 clean:
 	@rm -f main
 
-# Live Reload
+# Live reload
 watch:
 	@air
 
-.PHONY: all build run test clean
+# Lint
+lint:
+	@golangci-lint run
+
+.PHONY: all build run test clean lint
